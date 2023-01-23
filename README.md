@@ -3,7 +3,7 @@
 
 - [x] Login Page
 - [x] II Semana da Física Register Page
-- [x] BD in Mongo Atlas
+- [ ] BD in SQLite
 - [ ] Post Register Page
 - [ ] Post Login Page
 - [ ] Copyright Footer
@@ -12,8 +12,6 @@
 - [ ] News API
 - [ ] Production
 - [ ] Astro Gallery
-
-### Deadline in September
 
 
 ### Right things to change
