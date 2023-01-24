@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/login-style.css">
-    <title>Gepac - Login</title>
+    <link rel="stylesheet" href="../static/css/add-news.css">
+    <title>Gepac - Adicionar Notícias</title>
 </head>
 
 <body>
@@ -54,7 +54,7 @@
     </div>
 </nav>
 <div class="loginform">
-    <div id='login' class="container pt-4 pb-5">
+    <div id='add-post' class="container pt-4 pb-5">
         {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
         {% for message in messages %}
@@ -64,23 +64,31 @@
         {% endfor %}
         {% endif %}
         {% endwith %}
-        <form method="post" action="{{ url_for('login') }}">
+        <form method="post" action="{{ url_for('add_news') }}">
             <div class="text-center pt-3">
                 <p class="display-7 fw-bold">Login</p><span><small
-                    class="textinho">Insira seu Email e Senha</small></span>
+                    class="textinho">Insira o conteúdo da notícia</small></span>
             </div>
             <div class="row px-md-4 px-1 m-0">
                 <div class="col-12">
                     <div>
-                        <p class="pb-1 username"></p><input type="email" class=" name form-control mb-4"
-                                                            placeholder="Email"
-                                                            name="email" required>
+                        <p class="pb-1 username"></p> <input type="text" class=" name form-control mb-4"
+                                                             placeholder="Title"
+                                                             name="title" required>
                     </div>
                 </div>
-                <div class="col-12"><input type="password" class="form-control mb-4" name="password" id="pass"
-                                           placeholder="Senha" required></div>
+                <div class="col-12"><input type="text" class="form-control mb-4" name="resume"
+                                           placeholder="Resumo" required></div>
+                <div class="col-12">
+                    <textarea class="form-control mb-4" name="content" placeholder="Content" required></textarea>
+                </div>
+                <div class="col-12">
+                    <input type="text" class="form-control mb-4" name="img_url" placeholder="Link da Imagem" required>
+                </div>
+                <div class="col-12"><input type="text" class="form-control mb-4" name="author"
+                                           placeholder="Author" required></div>
                 <div class="col-12" style="display: flex; justify-content: center; padding-top: 10px;">
-                    <input type="submit" id="buttonsubmit" value="Login" class="btn btn-primary py-3"
+                    <input type="submit" id="buttonsubmit" value="Submit" class="btn btn-primary py-3"
                            style="width: 50%;background-color:#262626; border-color: white;">
                 </div>
             </div>

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+    <title>User Info</title>
+</head>
+<body>
+<div>
+    <form action="/user/admin/{{user['_id']}}/edit" method="post">
+        <div>
+            <input type="text" value="{{user['email']}}" name="email">
+            <input type="checkbox" name="admin" value="{{user['admin']}}" {% if user['admin'] %} checked {% endif %}>
+        </div>
+        <div>
+            <a href="/user/admin" class="btn btn-primary">Cancel</a>
+            <input type="submit" value="Save" class="btn btn-primary">
+        </div>
+    </form>
+</div>
+</body>
+</html>
