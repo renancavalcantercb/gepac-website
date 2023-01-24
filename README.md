@@ -1,9 +1,11 @@
 # Gepac Website
 ### To do List
 
+- [X] BD in Mongo Atlas
+- [X] Register Page
+- [X] Register System
 - [x] Login Page
-- [x] II Semana da Física Register Page
-- [ ] BD in SQLite
+- [ ] Login System
 - [ ] Post Register Page
 - [ ] Post Login Page
 - [ ] Copyright Footer
@@ -15,6 +17,5 @@
 
 
 ### Right things to change
-- [ ] margin-bottom in card 2 (news.html)
 - [ ] https://freefrontend.com/bootstrap-galleries/  Galeria moonnight https://www.flickr.com/people/146020129@N04/
-- [ ] Download and added the Like and Views System
+
