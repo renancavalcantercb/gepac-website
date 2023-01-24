@@ -47,10 +47,23 @@
                         <li><a class="dropdown-item" href="#">Moon Night</a></li>
                     </ul>
                 </li>
+                {% if session['logged_in'] %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ session['email'] }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="semanadafisica">Profile</a></li>
+                        <li><a class="dropdown-item" href="logout">Logout</a></li>
+                        <li><a class="dropdown-item" href="#">Moon Night</a></li>
+                    </ul>
+                </li>
+                {% else %}
                 <li class="nav-item">
                     <a class="nav-link mx-2" href="login">Login</a>
                 </li>
-
+                {% endif %}
             </ul>
         </div>
     </div>
