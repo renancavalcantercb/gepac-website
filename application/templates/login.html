@@ -49,14 +49,22 @@
                 <li class="nav-item">
                     <a class="nav-link mx-2 active" href="login">Login</a>
                 </li>
-
             </ul>
         </div>
     </div>
 </nav>
 <div class="loginform">
     <div id='login' class="container pt-4 pb-5">
-        <form method="post" action="http://localhost:3000/login/">
+        {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{message[0]}}" role="alert">
+            {{ message[1] }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <form method="post" action="{{ url_for('login') }}">
             <div class="text-center pt-3">
                 <p class="display-7 fw-bold">Login</p><span><small
                     class="textinho">Insira seu Email e Senha</small></span>
@@ -69,7 +77,7 @@
                                                              name="email" required>
                     </div>
                 </div>
-                <div class="col-12"><input type="password" class="form-control mb-4" name="senha" id="pass"
+                <div class="col-12"><input type="password" class="form-control mb-4" name="password" id="pass"
                                            placeholder="Senha" required></div>
                 <div class="col-12" style="display: flex; justify-content: center; padding-top: 10px;">
                     <input type="submit" id="buttonsubmit" value="Login" class="btn btn-primary py-3"
