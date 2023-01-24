@@ -1,49 +1,30 @@
-function ValidaCPF() {
-    var RegraValida = document.getElementById("RegraValida").value;
-    var cpfValido = /^(([0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2})|([0-9]{11}))$/;
-    if (cpfValido.test(RegraValida) === true) {
-        console.log("CPF Válido");
-    } else {
-        console.log("CPF Inválido");
-    }
-}
+function countdown_timer() {
+    // Set the date we're counting down to
+    var countDownDate = new Date("Sep 1, 2023 18:00:0").getTime();
 
-function fMasc(objeto, mascara) {
-    obj = objeto
-    masc = mascara
-    setTimeout("fMascEx()", 1)
-}
+    // Update the count down every 1 second
+    var x = setInterval(function () {
 
-function fMascEx() {
-    obj.value = masc(obj.value)
-}
+        // Get today's date and time
+        var now = Date.now();
 
-function mCPF(cpf) {
-    cpf = cpf.replace(/\D/g, "")
-    cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2")
-    cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2")
-    cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2")
-    return cpf
-}
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
 
-function telMasc(objeto, mascara) {
-    obje = objeto
-    masca = mascara
-    setTimeout("telefoneMascEx()", 1)
-}
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 
-function telefoneMascEx() {
-    obje.value = masca(obje.value)
-}
 
-function mTEL(tel) {
-    tel = tel.replace(/\D/g, "")
-    tel = tel.replace(/(\d{2})(\d)/, "($1)$2")
-    tel = tel.replace(/(\d{5})(\d)/, "$1$2")
-    tel = tel.replace(/(\d{4})(\d)/, "$1$2-")
-    return tel
-}
+        // If the count down is finished, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("demo").innerHTML = "Semana da Física já começou!";
+        } else {
+            // Display the result in the element with id="demo"
+            document.getElementById("demo").innerHTML = `Contagem regressiva para a Semana da Física: ${days} dias ${hours} horas ${minutes} minutos`;
+        }
 
-function redirect() {
-    window.location.assign("semanadafisica.html")
+    }, 1000);
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
 
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,142 +9,100 @@
     <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/css/semanadafisica.css">
     <title>II Semana da Física</title>
-
 </head>
 
 <body>
-    <nav id='navbar' class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
-        <div class="container-fluid">
-            <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="index.html">
-                        <img src="../static/assets/gepac%20logo%20branco%202.png" alt="Avatar Logo" style="width:60px;"
-                             class="rounded-pill">
-                    </a>
-                </div>
-            </nav>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class=" collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav ms-auto ">
-                    <li class="nav-item">
-                        <a class="nav-link mx-2" aria-current="page" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link mx-2" href="news.html">Notícias</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Eventos
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item active" href="semanadafisica.html">II Semana da Física</a></li>
-                            <li><a class="dropdown-item" href="#">VI From Micro</a></li>
-                            <li><a class="dropdown-item" href="#">Moon Night</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link mx-2" href="login.html">Login</a>
-                    </li>
-
-                </ul>
+<script src="../static/js/semanadafisica.js"></script>
+<nav id='navbar' class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index">
+                    <img src="../static/assets/gepac%20logo%20branco%202.png" alt="Avatar Logo" style="width:60px;"
+                         class="rounded-pill">
+                </a>
             </div>
+        </nav>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class=" collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ms-auto ">
+                <li class="nav-item">
+                    <a class="nav-link mx-2" aria-current="page" href="index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-2" href="news">Notícias</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Eventos
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item active" href="semanadafisica">II Semana da Física</a></li>
+                        <li><a class="dropdown-item" href="#">VI From Micro</a></li>
+                        <li><a class="dropdown-item" href="#">Moon Night</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-2" href="login">Login</a>
+                </li>
+
+            </ul>
         </div>
-    </nav>
-    <!-- Display the countdown timer in an element -->
-
-    <div class="loginform">
-        <div id='login' class="container pt-4 pb-5">
-            <form method="post" action="http://localhost:3000/usuarios/" id="form-example">
-                <div class="text-center pt-3">
-                    <p id="demo"></p>
-
-                    <script>
-                        // Set the date we're counting down to
-                        var countDownDate = new Date("Sep 1, 2022 18:00:0").getTime();
-
-                        // Update the count down every 1 second
-                        var x = setInterval(function () {
-
-                            // Get today's date and time
-                            var now = new Date().getTime();
-
-                            // Find the distance between now and the count down date
-                            var distance = countDownDate - now;
-
-                            // Time calculations for days, hours, minutes and seconds
-                            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                            // var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                            // Display the result in the element with id="demo"
-                            document.getElementById("demo").innerHTML = "Contagem regressiva para a Semana da Física: " + days + " dias " + hours + " horas "
-                                + minutes + " minutos ";
-
-                            // If the count down is finished, write some text
-                            if (distance < 0) {
-                                clearInterval(x);
-                                document.getElementById("demo").innerHTML = "Semana da Física já começou!";
-                            }
-                        }, 1000);
-                    </script>
-                    <p class="display-7 fw-bold">Inscrição para a II Semana da Física</p>
-                </div>
-                <div class="row px-md-4 px-1 m-0">
-                    <div class="col-12">
-                        <div>
-                            <p class="pb-1 username"></p> <input type="text" name="nome" class=" name form-control mb-4"
-                                placeholder="Nome Completo" required>
-                        </div>
-                    </div>
-                    <div class="col-12"> <input type="password" class="form-control mb-4" name="senha" id="pass"
-                            placeholder="Senha" required></div>
-                    <div class="col-12"> <input type="email" class="form-control mb-4" name="email" id="pass"
-                            placeholder="Email" required></div>
-                    <div class="col-12"> <input type="date" class="form-control mb-4" name="nascimento" id="pass"
-                            placeholder="Data de Nascimento" required></div>
-                    <div class="col-12"> <input type="text" id='RegraValida' class="form-control mb-4" name="cpf"
-                            onkeydown="javascript: fMasc( this, mCPF );" placeholder="CPF" required>
-                    </div>
-                    <div class="col-12"> <input type="tel" class="form-control mb-4" name="telefone"
-                            onkeydown="javascript: telMasc( this, mTEL );" id="telephone"
-                            placeholder="Número de Telefone" required>
-                    </div>
-                    <div class=" col-12">
-                        <select class="form-control mb-4" aria-label="Default select example" name="curso" required>
-                            <option selected="" disabled="disabled">Minicurso Escolhido</option>
-                            <option name="Astrofísica Estelar">Astrofísica Estelar - Professor Nizomar</option>
-                            <option name="Gamificação do Ensino de Física">Gamificação do Ensino de Física - Professor
-                                Darkson</option>
-                            <option name="Arduino para o Ensino de Física">Arduino para o Ensino de Física - Lisboa
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-12" style="display: flex; justify-content: center; padding-top: 10px;">
-                        <input onclick="ValidaCPF(); redirect();" type="submit" value="Cadastrar" id="buttonsubmit"
-                            class="btn btn-primary py-3"
-                            style="width: 50%;background-color:#262626; border-color: white;">
-                    </div>
-                </div>
-        </div>
-        </form>
     </div>
-    </div>
-
-    <script src="../static/js/semanadafisica.js">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-dark text-white-50">
-        <div class="container text-center">
-            <small>Copyright &copy; GEPAC 2017-2022</small>
+</nav>
+<!-- Display the countdown timer in an element -->
+<div class="loginform">
+    <div id='login' class="container pt-4 pb-5">
+        <div class="text-center pt-3">
+            <p id="demo"></p>
+            <script>
+                countdown_timer();
+            </script>
         </div>
-    </footer>
+
+        {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{message[0]}}" role="alert">
+            {{ message[1] }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <form method="post" action="{{ url_for('register_user') }}" id="form-example">
+            <div class="text-center">
+                <p class="display-7 fw-bold">Inscrição para a II Semana da Física</p>
+            </div>
+            <div class="row px-md-4 px-1 m-0">
+                <div class="col-12"><input type="email" class="form-control mb-4" name="email" id="pass"
+                                           placeholder="Email" required></div>
+                <div class="col-12"><input type="password" class="form-control mb-4" name="password" id="pass"
+                                           placeholder="password" required></div>
+                <div class="col-12"><input type="password" class="form-control mb-4" name="confirm_password" id="pass"
+                                           placeholder="confirm password" required></div>
+                <div class="col-12" style="display: flex; justify-content: center; padding-top: 10px;">
+                    <input type="submit" value="Cadastrar" id="buttonsubmit"
+                           class="btn btn-primary py-3"
+                           style="width: 50%;background-color:#262626; border-color: white;">
+                </div>
+            </div>
+    </div>
+    </form>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<footer id="sticky-footer" class="flex-shrink-0 py-4 bg-dark text-white-50">
+    <div class="container text-center">
+        <small>Copyright &copy; GEPAC 2017-2023</small>
+    </div>
+</footer>
 </body>
 </body>
 
