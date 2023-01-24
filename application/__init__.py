@@ -12,6 +12,8 @@ app.config["MONGO_URI"] = getenv("MONGO_URI")
 
 client = MongoClient(app.config["MONGO_URI"])
 db = client.users
+
 todos = db.todos
+posts = db.posts
 
 from application import routes
