@@ -10,60 +10,133 @@
     <title>Admin - Page</title>
 </head>
 <body>
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Email</th>
-        <th scope="col">Role</th>
-        <th scope="col">Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    {%for user in users%}
-    <tr>
-        <td>{{user['_id']}}</td>
-        <td>{{user['email']}}</td>
-        <td>{{user['admin']}}</td>
-        <td>
-            <a href="/user/admin/{{user['_id']}}/view" class="btn btn-primary">View</a>
-            <a href="/user/admin/{{ user['_id'] }}/edit" class="btn btn-primary">Edit</a>
-            <!-- Button to Open the Modal -->
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">
-                Delete
-            </button>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                role="tab" aria-controls="home" aria-selected="true">Usuários
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                role="tab" aria-controls="profile" aria-selected="false">Notícias
+        </button>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {%for user in users%}
+            <tr>
+                <td>{{user['_id']}}</td>
+                <td>{{user['email']}}</td>
+                <td>{{user['admin']}}</td>
+                <td>
+                    <a href="/user/admin/{{user['_id']}}/view" class="btn btn-primary">View</a>
+                    <a href="/user/admin/{{ user['_id'] }}/edit" class="btn btn-warning">Edit</a>
+                    <!-- Button to Open the Modal -->
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">
+                        Delete
+                    </button>
 
-            <!-- The Modal -->
-            <div class="modal" id="myModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
+                    <!-- The Modal -->
+                    <div class="modal" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
 
-                        <!-- Modal Header -->
-                        <div class="modal-header">
-                            <h4 class="modal-title">Modal Heading</h4>
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"></button>
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Modal Heading</h4>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    Are you sure you want to delete this user?
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                    <a href="/user/admin/{{ user['_id'] }}/delete" class="btn btn-danger">Delete</a>
+                                </div>
+
+                            </div>
                         </div>
-
-                        <!-- Modal body -->
-                        <div class="modal-body">
-                            Are you sure you want to delete this user?
-                        </div>
-
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                            <a href="/user/admin/{{ user['_id'] }}/delete" class="btn btn-danger">Delete</a>
-                        </div>
-
                     </div>
-                </div>
-            </div>
 
-        </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Título</th>
+                <th scope="col">Resumo</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {%for post in posts%}
+            <tr>
+                <td>{{post['_id']}}</td>
+                <td>{{post['title']}}</td>
+                <td>{{post['resume']}}</td>
+                <td>
+                    <a href="/user/admin/{{post['_id']}}/view" class="btn btn-primary">View</a>
+                    <a href="/user/admin/{{ post['_id'] }}/edit" class="btn btn-warning">Edit</a>
+                    <!-- Button to Open the Modal -->
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">
+                        Delete
+                    </button>
+
+                    <!-- The Modal -->
+                    <div class="modal" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Modal Heading</h4>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    Are you sure you want to delete this post?
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                    <a href="/user/admin/{{ post['_id'] }}/delete" class="btn btn-danger">Delete</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
         integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
         crossorigin="anonymous"></script>

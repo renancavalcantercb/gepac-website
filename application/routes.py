@@ -145,12 +145,13 @@ def login():
 def admin():
     if session['admin']:
         users = db.users.find()
+        posts = db.posts.find()
         users_with_roles = []
         for user in users:
             user['admin'] = 'Admin' if user['admin'] else 'User'
             users_with_roles.append(user)
 
-        return render_template('admin.html', users=users_with_roles)
+        return render_template('admin.html', users=users_with_roles, posts=posts)
 
 
 @app.route('/user/admin/<user_id>/edit', methods=['GET', 'POST'])
