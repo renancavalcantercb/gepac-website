@@ -29,5 +29,9 @@ def generate_id():
     return str(ObjectId())
 
 
+def text_to_html(text):
+    return text.replace("\r", "").replace("\n", "<br>")
+
+
 def slugify(title):
     return re.sub(r"[^\w\s]", '', title).replace(" ", "-").lower()
