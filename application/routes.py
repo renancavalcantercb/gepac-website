@@ -26,7 +26,7 @@ def add_news():
         id = utils.generate_id()
         title = request.form['title']
         resume = request.form['resume']
-        content = request.form['content']
+        content = utils.text_to_html(request.form['content'])
         img_url = request.form['img_url']
         slug = utils.slugify(title)
         author = request.form['author']
@@ -41,6 +41,7 @@ def add_news():
                 '_id': id,
                 'title': title,
                 'resume': resume,
+                'slug': slug,
                 'content': content,
                 'img_url': img_url,
                 'author': author,
@@ -51,6 +52,12 @@ def add_news():
         flash('Please fill all fields')
         return redirect(url_for('add_news'))
     return render_template('add-news.html')
+
+
+@app.route('/news/<slug>')
+def news_detail(slug):
+    news = db.posts.find_one({'slug': slug})
+    return render_template('news-detail.html', news=news)
 
 
 @app.route('/semanadafisica')
@@ -179,3 +186,8 @@ def logout():
     session['email'] = None
     session.clear()
     return redirect(url_for('index'))
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
