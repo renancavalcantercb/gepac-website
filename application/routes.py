@@ -21,6 +21,8 @@ def news():
 
 
 @app.route('/add-news', methods=['GET', 'POST'])
+@utils.login_required
+@utils.is_admin
 def add_news():
     if request.method == 'POST':
         id = utils.generate_id()
