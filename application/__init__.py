@@ -10,7 +10,8 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = getenv("SECRET_KEY")
 app.config["MONGO_URI"] = getenv("MONGO_URI")
 
-client = MongoClient(app.config["MONGO_URI"])
+client = MongoClient(app.config["MONGO_URI"], connectTimeoutMS=30000, socketTimeoutMS=None, connect=False,
+                     maxPoolsize=1)
 db = client.users
 
 todos = db.todos
