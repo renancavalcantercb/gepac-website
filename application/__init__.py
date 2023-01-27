@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_wtf import Form
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from os import getenv

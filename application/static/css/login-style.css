@@ -1,101 +1,94 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
-
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  list-style: none;
-  font-family: 'Montserrat', sans-serif
-}
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
 
-p {
-  margin: 0px
 }
-
 
 
 .loginform {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #060672;
-  padding: 30px 10px;
-  background-position: center center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-image: url(../assets/bg.jpg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #060672;
+    padding: 30px 10px;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url(../assets/bg.jpg);
 
 }
 
 #buttonsubmit:active {
-  border: 2px solid white;
+    border: 2px solid white;
 }
 
 .container {
-  max-width: 500px;
-  background-color: #262626;
-  margin: auto;
-  color: white;
-  border-radius: 10px;
-  position: relative
+    max-width: 500px;
+    background-color: #262626;
+    margin: auto;
+    color: white;
+    border-radius: 10px;
+    position: relative
 }
 
 
 .display-7 {
-  font-size: 35px;
+    font-size: 35px;
 }
 
 
 .create .btn.btn-primary {
-  width: 50%;
-  padding: 0 20px;
-  display: block;
-  color: white;
-  font-size: 14px;
-  font-weight: 600;
-  background-color: #262626;
-  border: 1px solid white;
-  text-transform: capitalize;
-  transition: 0.5s;
+    width: 50%;
+    padding: 0 20px;
+    display: block;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    background-color: #262626;
+    border: 1px solid white;
+    text-transform: capitalize;
+    transition: 0.5s;
 }
 
 
 .create .btn.btn-primary:hover {
-  background-position: right center;
-  color: #fff;
-  text-decoration: none;
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
 
 }
 
 .create .btn.btn-primary:hover .fas {
-  transform: translateX(10px);
-  transition: transform 0.5s ease;
+    transform: translateX(10px);
+    transition: transform 0.5s ease;
 }
 
 .form-control {
-  color: white;
-  text-transform: capitalize;
-  background-color: #262626;
-  border: 1px solid white;
-  height: 50px;
-  padding-left: 20px
+    color: white;
+    text-transform: capitalize;
+    background-color: #262626;
+    border: 1px solid white;
+    height: 50px;
+    padding-left: 20px
 }
 
 .form-control:focus {
-  color: white;
-  background-color: #262626;
-  border: 2px solid white;
-  box-shadow: none
+    color: white;
+    background-color: #262626;
+    border: 2px solid white;
+    box-shadow: none
 }
 
 .username {
-  padding-top: 25px;
-  font-size: 14px
+    padding-top: 25px;
+    font-size: 14px
 }
 
 ::placeholder {
-  font-size: 12px;
-  font-weight: 600
+    font-size: 12px;
+    font-weight: 600
 }

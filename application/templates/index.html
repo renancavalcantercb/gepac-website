@@ -54,7 +54,9 @@
                         {{ session['email'] }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="private">Profile</a></li>
+                        {% if session['admin'] %}
+                        <li><a class="dropdown-item" href="/user/admin">Admin</a></li>
+                        {% endif %}
                         <li><a class="dropdown-item" href="logout">Logout</a></li>
                     </ul>
                 </li>

@@ -1,5 +1,6 @@
 from functools import wraps
 import re
+import markdown
 
 from bson import ObjectId
 from flask import redirect, url_for, session
@@ -30,7 +31,7 @@ def generate_id():
 
 
 def text_to_html(text):
-    return text.replace("\r", "").replace("\n", "<br>")
+    return markdown.markdown(text)
 
 
 def slugify(title):
