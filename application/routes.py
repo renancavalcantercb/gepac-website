@@ -154,11 +154,7 @@ def create_user():
 @utils.login_required
 @utils.is_admin
 def edit_user(user_id):
-    if request.method == 'GET':
-        user = db.users.find_one({'_id': ObjectId(user_id)})
-        return render_template('user.html', user=user)
-
-    elif request.method == 'POST':
+    if request.method == 'POST':
         user = db.users.find_one({'_id': ObjectId(user_id)})
 
         if request.form['email'] != user['email']:
@@ -171,7 +167,7 @@ def edit_user(user_id):
         return redirect(url_for('admin'))
 
 
-@app.route('/user/admin/<user_id>/delete', methods=['POST'])
+@app.route('/user/admin/<user_id>/delete')
 @utils.login_required
 @utils.is_admin
 def delete_user(user_id):
@@ -219,13 +215,8 @@ def add_news():
 @utils.login_required
 @utils.is_admin
 def edit_news(post_id):
-    if request.method == 'GET':
-        news = db.posts.find_one({'_id': ObjectId(post_id)})
-        return render_template('news-edit.html', news=news)
-
-    elif request.method == 'POST':
-        news = db.posts.find_one({'_id': ObjectId(post_id)})
-
+    if request.method == 'POST':
+        news = db.posts.find_one({'_id': post_id})
         if request.form['title'] != news['title']:
             news['title'] = request.form['title']
             news['slug'] = utils.slugify(request.form['title'])
@@ -238,14 +229,15 @@ def edit_news(post_id):
         elif request.form['author'] != news['author']:
             news['author'] = request.form['author']
 
-        db.posts.update_one({'_id': ObjectId(post_id)}, {'$set': news})
+        db.posts.update_one({'_id': post_id}, {'$set': news})
         return redirect(url_for('admin'))
 
 
-@app.route('/user/admin/<post_id>/delete')
+@app.route('/news/<post_id>/delete')
 @utils.login_required
 @utils.is_admin
 def delete_news(post_id):
+    print(post_id)
     db.posts.delete_one({'_id': post_id})
     return redirect(url_for('admin'))
 

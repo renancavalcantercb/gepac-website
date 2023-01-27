@@ -7,21 +7,26 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js"></script>
     <title>Admin - Page</title>
 </head>
 <body>
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                role="tab" aria-controls="home" aria-selected="true">Usuários
-        </button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-                role="tab" aria-controls="profile" aria-selected="false">Notícias
-        </button>
-    </li>
-</ul>
+<div>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                    role="tab" aria-controls="home" aria-selected="true">Usuários
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                    role="tab" aria-controls="profile" aria-selected="false">Notícias
+            </button>
+        </li>
+    </ul>
+</div>
 <div class="container">
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -199,15 +204,6 @@
                         <div class="modal-body">
                             <div class="loginform">
                                 <div id='add-post' class="container pt-4 pb-5">
-                                    {% with messages = get_flashed_messages(with_categories=True) %}
-                                    {% if messages %}
-                                    {% for message in messages %}
-                                    <div class="alert alert-{{message[0]}}" role="alert">
-                                        {{ message[1] }}
-                                    </div>
-                                    {% endfor %}
-                                    {% endif %}
-                                    {% endwith %}
                                     <form method="post" action="{{ url_for('add_news') }}">
                                         <div class="text-center pt-3">
                                             <p class="display-7 fw-bold">Adicionar Notícia</p><span><small
@@ -218,7 +214,7 @@
                                                 <div>
                                                     <p class="pb-1 username"></p> <input type="text"
                                                                                          class=" name form-control mb-4"
-                                                                                         placeholder="Title"
+                                                                                         placeholder="Título"
                                                                                          name="title" required>
                                                 </div>
                                             </div>
@@ -226,8 +222,11 @@
                                                                        name="resume"
                                                                        placeholder="Resumo" required></div>
                                             <div class="col-12">
-                                                <textarea class="form-control mb-4" name="content" placeholder="Content"
+                                                <textarea class="form-control mb-4" name="content" rows="5"
+                                                          placeholder="Conteúdo" id="markdown-textarea"
                                                           required></textarea>
+                                                <label for="markdown-textarea">Prévia:</label>
+                                                <div id="preview"></div>
                                             </div>
                                             <div class="col-12">
                                                 <input type="text" class="form-control mb-4" name="img_url"
@@ -235,7 +234,7 @@
                                             </div>
                                             <div class="col-12"><input type="text" class="form-control mb-4"
                                                                        name="author"
-                                                                       placeholder="Author" required></div>
+                                                                       placeholder="Autor" required></div>
                                             <div class="col-12"
                                                  style="display: flex; justify-content: center; padding-top: 10px;">
                                                 <input type="submit" id="buttonsubmit" value="Submit"
@@ -255,6 +254,7 @@
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Título</th>
+                    <th scope="col">Autor</th>
                     <th scope="col">Resumo</th>
                     <th scope="col">Ação</th>
                 </tr>
@@ -264,8 +264,10 @@
                 <tr>
                     <td>{{posts.index(post) + 1}}</td>
                     <td>{{post['title']}}</td>
+                    <td>{{post['author']}}</td>
                     <td>{{post['resume']}}</td>
                     <td>
+                        <a href="/news/{{post['slug']}}" target="_blank" class="btn btn-primary">Visualizar</a>
                         <div>
                             <button type="button" class="btn btn-warning"
                                     data-bs-toggle="modal"
@@ -306,7 +308,8 @@
                                                                value="{{post['resume']}}" required>
                                                     </div>
                                                     <div class="col-12">
-                                                <textarea class="form-control mb-4" name="content" placeholder="Content"
+                                                <textarea class="form-control mb-4" name="content" rows="5"
+                                                          placeholder="Conteúdo"
                                                           required>{{post['content']}}</textarea>
                                                     </div>
                                                     <div class="col-12">
@@ -359,7 +362,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar
                         </button>
-                        <a href="/user/admin/{{ post['_id'] }}/delete"
+                        <a href="/news/{{ post['_id'] }}/delete"
                            class="btn btn-danger">Deletar</a>
                     </div>
 
@@ -378,6 +381,19 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
         integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
         crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js"></script>
+<script>
+    var converter = new showdown.Converter();
+    var textarea_new = document.getElementById("markdown-textarea");
+    var preview_new = document.getElementById("preview");
+
+    textarea_new.addEventListener("input", function () {
+        var markdown_new = textarea_new.value;
+        var html_new = converter.makeHtml(markdown_new);
+        preview_new.innerHTML = html_new;
+    });
+</script>
+
+
 </body>
 </html>

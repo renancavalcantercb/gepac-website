@@ -12,7 +12,7 @@
     <div class="container-fluid">
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index">
+                <a class="navbar-brand" href="/index">
                     <img src="../static/assets/gepac%20logo%20branco%202.png" alt="Avatar Logo" style="width:60px;"
                          class="rounded-pill">
                 </a>
@@ -28,7 +28,6 @@
                 <li class="nav-item">
                     <a class="nav-link mx-2" aria-current="page" href="/">Home</a>
                 </li>
-                s
                 <li class="nav-item">
                     <a class="nav-link mx-2 active" href="/news">Notícias</a>
                 </li>
@@ -43,16 +42,17 @@
                         <li><a class="dropdown-item" href="#">Moon Night</a></li>
                     </ul>
                 </li>
-                {% if session['logged_in'] %}
+                                {% if session['logged_in'] %}
                 <li class="nav-item dropdown">
                     <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
                         {{ session['email'] }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="semanadafisica">Profile</a></li>
-                        <li><a class="dropdown-item" href="logout">Logout</a></li>
-                        <li><a class="dropdown-item" href="#">Moon Night</a></li>
+                        {% if session['admin'] %}
+                        <li><a class="dropdown-item" href="/user/admin">Admin</a></li>
+                        {% endif %}
+                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
                     </ul>
                 </li>
                 {% else %}
@@ -67,8 +67,8 @@
 <article class="container">
     <h1>{{ news.title }}</h1>
     <p>{{ news.resume }}</p>
-    <div class="d-flex justify-content-center">
-        <img src="{{news.img_url}}" class="rounded img-fluid img-responsive">
+    <div>
+        <img src="{{ news.img_url }}" alt="Imagem da notícia">
     </div>
     <p>{{ news.content|safe }}</p>
 </article>
