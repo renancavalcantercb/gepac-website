@@ -15,45 +15,8 @@ def index():
 
 @app.route('/news')
 def news():
-    # search for all news in posts collection
     news = posts.find().sort("date_posted", DESCENDING)
     return render_template('news.html', news=news)
-
-
-@app.route('/add-news', methods=['GET', 'POST'])
-@utils.login_required
-@utils.is_admin
-def add_news():
-    if request.method == 'POST':
-        id = utils.generate_id()
-        title = request.form['title']
-        resume = request.form['resume']
-        content = utils.text_to_html(request.form['content'])
-        img_url = request.form['img_url']
-        slug = utils.slugify(title)
-        author = request.form['author']
-        date_posted = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-
-        if title and content and author and date_posted:
-            if db.news.find_one({'slug': slug}) or db.news.find_one({'title': title}):
-                flash('Title or slug already exists')
-                return redirect(url_for('add_news'))
-
-            db.posts.insert_one({
-                '_id': id,
-                'title': title,
-                'resume': resume,
-                'slug': slug,
-                'content': content,
-                'img_url': img_url,
-                'author': author,
-                'date_posted': date_posted
-            })
-            return redirect(url_for('news'))
-
-        flash('Please fill all fields')
-        return redirect(url_for('add_news'))
-    return render_template('add-news.html')
 
 
 @app.route('/news/<slug>')
@@ -151,7 +114,40 @@ def admin():
             user['admin'] = 'Admin' if user['admin'] else 'User'
             users_with_roles.append(user)
 
-        return render_template('admin.html', users=users_with_roles, posts=posts)
+        return render_template('admin.html', users=users_with_roles, posts=list(posts))
+
+
+@app.route('/user/admin/create', methods=['POST'])
+@utils.login_required
+@utils.is_admin
+def create_user():
+    if session['admin']:
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+        role = request.form['role']
+        admin = True if role == 'admin' else False
+        error = None
+
+        if not email:
+            error = 'Email is required.'
+            return redirect(url_for('admin'))
+        elif not password:
+            error = 'Password is required.'
+            return redirect(url_for('admin'))
+        elif password != confirm_password:
+            error = 'Passwords do not match.'
+            return redirect(url_for('admin'))
+
+        if error is None:
+            try:
+                db.users.insert_one({'email': email, 'password': generate_password_hash(password), 'admin': admin})
+            except Exception as e:
+                error = f"Error occured: {e}"
+                flash(error)
+            else:
+                flash(f'User {email} was successfully registered!', category='success')
+                return redirect(url_for('admin'))
 
 
 @app.route('/user/admin/<user_id>/edit', methods=['GET', 'POST'])
@@ -175,11 +171,82 @@ def edit_user(user_id):
         return redirect(url_for('admin'))
 
 
-@app.route('/user/admin/<user_id>/delete')
+@app.route('/user/admin/<user_id>/delete', methods=['POST'])
 @utils.login_required
 @utils.is_admin
 def delete_user(user_id):
     db.users.delete_one({'_id': ObjectId(user_id)})
+    return redirect(url_for('admin'))
+
+
+@app.route('/add-news', methods=['GET', 'POST'])
+@utils.login_required
+@utils.is_admin
+def add_news():
+    if request.method == 'POST':
+        id = utils.generate_id()
+        title = request.form['title']
+        resume = request.form['resume']
+        content = utils.text_to_html(request.form['content'])
+        img_url = request.form['img_url']
+        slug = utils.slugify(title)
+        author = request.form['author']
+        date_posted = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+
+        if title and content and author and date_posted:
+            if db.news.find_one({'slug': slug}) or db.news.find_one({'title': title}):
+                flash('Title or slug already exists')
+                return redirect(url_for('admin'))
+
+            db.posts.insert_one({
+                '_id': id,
+                'title': title,
+                'resume': resume,
+                'slug': slug,
+                'content': content,
+                'img_url': img_url,
+                'author': author,
+                'date_posted': date_posted
+            })
+            return redirect(url_for('admin'))
+
+        flash('Please fill all fields')
+        return redirect(url_for('admin'))
+    return redirect(url_for('admin'))
+
+
+@app.route('/news/<post_id>/edit', methods=['GET', 'POST'])
+@utils.login_required
+@utils.is_admin
+def edit_news(post_id):
+    if request.method == 'GET':
+        news = db.posts.find_one({'_id': ObjectId(post_id)})
+        return render_template('news-edit.html', news=news)
+
+    elif request.method == 'POST':
+        news = db.posts.find_one({'_id': ObjectId(post_id)})
+
+        if request.form['title'] != news['title']:
+            news['title'] = request.form['title']
+            news['slug'] = utils.slugify(request.form['title'])
+        elif request.form['resume'] != news['resume']:
+            news['resume'] = request.form['resume']
+        elif request.form['content'] != news['content']:
+            news['content'] = utils.text_to_html(request.form['content'])
+        elif request.form['img_url'] != news['img_url']:
+            news['img_url'] = request.form['img_url']
+        elif request.form['author'] != news['author']:
+            news['author'] = request.form['author']
+
+        db.posts.update_one({'_id': ObjectId(post_id)}, {'$set': news})
+        return redirect(url_for('admin'))
+
+
+@app.route('/user/admin/<post_id>/delete')
+@utils.login_required
+@utils.is_admin
+def delete_news(post_id):
+    db.posts.delete_one({'_id': post_id})
     return redirect(url_for('admin'))
 
 

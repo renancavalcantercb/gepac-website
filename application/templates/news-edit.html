@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+    <title>Notícia</title>
+</head>
+<body>
+<div class="loginform">
+    <div id='add-post' class="container pt-4 pb-5">
+        <form method="post" action="/news/{{news['_id'] }}/edit">
+            <div class="text-center pt-3">
+                <p class="display-7 fw-bold">Visualizar/Editar Notícia</p>
+            </div>
+            <div class="row px-md-4 px-1 m-0">
+                <div class="col-12">
+                    <div>
+                        <p class="pb-1 username"></p> <input type="text"
+                                                             class=" name form-control mb-4"
+                                                             placeholder="Title"
+                                                             name="title" required>
+                    </div>
+                </div>
+                <div class="col-12"><input type="text" class="form-control mb-4"
+                                           name="resume"
+                                           placeholder="Resumo" required></div>
+                <div class="col-12">
+                                                <textarea class="form-control mb-4" name="content" placeholder="Content"
+                                                          required></textarea>
+                </div>
+                <div class="col-12">
+                    <input type="text" class="form-control mb-4" name="img_url"
+                           placeholder="Link da Imagem" required>
+                </div>
+                <div class="col-12"><input type="text" class="form-control mb-4"
+                                           name="author"
+                                           placeholder="Author" required></div>
+                <div class="col-12"
+                     style="display: flex; justify-content: center; padding-top: 10px;">
+                </div>
+            </div>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Editar</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
