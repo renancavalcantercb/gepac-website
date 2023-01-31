@@ -33,37 +33,51 @@ def first_event():
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
     if request.method == 'POST':
+        name = request.form['name']
         email = request.form['email']
         password = request.form['password']
         confirm_password = request.form['confirm_password']
-        admin = False
+        cpf = request.form['cpf']
+        birthdate = request.form['birthdate']
+        phone = request.form['phone']
+        course = request.form['course']
+
         error = None
-
-        if not email:
-            error = 'Email is required.'
-        elif not password:
-            error = 'Password is required.'
-
-        user = db.users.find_one({'email': email})
-        if user is not None:
-            error = f'User {email} is already registered.'
-            flash(error, category='danger')
-            return render_template('semanadafisica.html')
+        flash_message = None
+        flash_category = None
 
         if password != confirm_password:
-            error = 'Passwords do not match.'
-            flash(error, category='danger')
-            return render_template('semanadafisica.html')
+            error = 'As senhas não conferem'
+
+        if error is None:
+            user_email = db.stundents.find_one({'email': email})
+            if user_email is not None:
+                error = f'O email {email} já está cadastrado.'
+            else:
+                user_cpf = db.stundents.find_one({'cpf': cpf})
+                if user_cpf is not None:
+                    error = f'O cpf {cpf} já está cadastrado.'
+                else:
+                    user_phone = db.stundents.find_one({'phone': phone})
+                    if user_phone is not None:
+                        error = f'O telefone {phone} já está cadastrado.'
 
         if error is None:
             try:
-                db.users.insert_one({'email': email, 'password': generate_password_hash(password), 'admin': admin})
+                db.stundents.insert_one(
+                    {'name': name, 'email': email, 'password': generate_password_hash(password), 'cpf': cpf,
+                     'birthdate': birthdate, 'phone': phone, 'course': course, 'admin': False})
+                flash_message = f'Usuário {email} cadastrado com sucesso!'
+                flash_category = 'success'
             except Exception as e:
                 error = f"Error occured: {e}"
-                flash(error)
-            else:
-                flash(f'User {email} was successfully registered!', category='success')
-                return redirect(url_for('first_event'))
+
+        if error:
+            flash(error, category='danger')
+        if flash_message:
+            flash(flash_message, category=flash_category)
+
+        return redirect(url_for('first_event' if flash_message else 'semanadafisica'))
 
 
 @app.route('/login')
@@ -79,25 +93,25 @@ def login():
         error = None
 
         if not email:
-            error = 'Email is required.'
+            error = 'O Email é obrigatório.'
         elif not password:
-            error = 'Password is required.'
+            error = 'A senha é obrigatória.'
 
         user = db.users.find_one({'email': email})
         if user is None:
-            error = f'User {email} is not registered.'
+            error = f'{email} não cadastrado.'
             flash(error, category='danger')
             return render_template('login.html')
 
         if error is None:
             if check_password_hash(user['password'], password):
                 session['logged_in'] = True
-                session['email'] = email
+                session['name'] = user['name']
                 session['admin'] = user['admin']
                 return redirect(url_for('index'))
 
             else:
-                error = 'Incorrect password.'
+                error = 'Usuário ou senha incorretos.'
                 flash(error, category='danger')
                 return render_template('login.html')
 
@@ -108,13 +122,25 @@ def login():
 def admin():
     if session['admin']:
         users = db.users.find()
+        stundents = db.stundents.find()
         posts = db.posts.find()
         users_with_roles = []
+        students_courses = []
+        course_map = {
+            '1': 'Selenografia',
+            '2': 'Física Estatística',
+            '3': 'Python para física'
+        }
+
         for user in users:
             user['admin'] = 'Admin' if user['admin'] else 'User'
             users_with_roles.append(user)
 
-        return render_template('admin.html', users=users_with_roles, posts=list(posts))
+        for stundent in stundents:
+            stundent['course'] = course_map.get(stundent['course'], 'Desconhecido')
+            students_courses.append(stundent)
+
+        return render_template('admin.html', users=users_with_roles, posts=list(posts), students=students_courses)
 
 
 @app.route('/user/admin/create', methods=['POST'])
