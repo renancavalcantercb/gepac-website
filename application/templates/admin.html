@@ -14,10 +14,15 @@
 </head>
 <body>
 <div>
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <ul class="nav nav-tabs">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                    role="tab" aria-controls="home" aria-selected="true">Usuários
+                    role="tab" aria-controls="home" aria-selected="true">Inscrições
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#user" type="button"
+                    role="tab" aria-controls="user" aria-selected="false">Usuários
             </button>
         </li>
         <li class="nav-item" role="presentation">
@@ -30,6 +35,183 @@
 <div class="container">
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <!-- Button trigger modal -->
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Inscrever Usuário
+                </button>
+                <form class="d-flex" action="/user/admin/{{search}}" method="post">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Criar um novo usuário</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/user/admin/create" method="post">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Senha</label>
+                                    <input type="password" class="form-control" id="password" name="password">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confirm_password" class="form-label">Confirmação de senha</label>
+                                    <input type="password" class="form-control" id="confirm_password"
+                                           name="confirm_password">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="role" class="form-label">Função</label>
+                                    <select class="form-select" aria-label="Default select example" id="role"
+                                            name="role">
+                                        <option value="admin">Administrador</option>
+                                        <option value="user">Usuário</option>
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        Fechar
+                                    </button>
+                                    <input type="submit" value="Save" class="btn btn-primary">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="table align-middle">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Minicurso</th>
+                    <th scope="col">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                {%for student in students%}
+                <tr>
+                    <td>{{students.index(student) + 1}}</td>
+                    <td>{{student['name']}}</td>
+                    <td>{{student['email']}}</td>
+                    <td>{{student['course']}}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#edit_{{student['_id']}}">
+                            Editar
+                        </button>
+                        <!-- The Modal -->
+                        <div class="modal" id="edit_{{student['_id']}}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Editar Usuário</h4>
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">X</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <form action="/user/admin/{{student['_id']}}/edit" method="post">
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label">Name:</label>
+                                                <input type="text" class="form-control" id="exampleInputEmail1"
+                                                       aria-describedby="emailHelp" name="name"
+                                                       value="{{student['name']}}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label">Email:</label>
+                                                <input type="email" class="form-control" id="exampleInputEmail1"
+                                                       aria-describedby="emailHelp" name="email"
+                                                       value="{{student['email']}}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label">Data de
+                                                    Nascimento:</label>
+                                                <input type="date" class="form-control" id="exampleInputEmail1"
+                                                       aria-describedby="emailHelp" name="birthdate"
+                                                       value="{{student['birthdate']}}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label">Telefone:</label>
+                                                <input type="tel" class="form-control" id="exampleInputEmail1"
+                                                       aria-describedby="emailHelp" name="phone"
+                                                       value="{{student['phone']}}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label">Minicurso:</label>
+                                                <select class="form-control mb-4" name="course" id="pass" required>
+                                                    <option value="1">Selenografia - Prof. Heliomarzio</option>
+                                                    <option value="2">Física Estatística - Prof. Mairton Cavalcante
+                                                    </option>
+                                                    <option value="3">Python para física - Prof. Renan Cavalcante
+                                                    </option>
+                                                </select>
+                                            </div>
+
+
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    Fechar
+                                                </button>
+                                                <form action="/user/admin/{{student['_id']}}/edit" method="post">
+                                                    <input type="submit" value="Editar" class="btn btn-danger">
+                                                </form>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Button to Open the Modal -->
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                data-bs-target="#del_{{student['_id']}}">
+                            Deletar
+                        </button>
+                        <!-- The Modal -->
+                        <div class="modal" id="del_{{student['_id']}}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Deletar usuário</h4>
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">X</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        Você tem certeza que deseja deletar o usuário {{student['email']}}?
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Fechar
+                                        </button>
+                                        <a href="/user/admin/{{ student['_id'] }}/delete"
+                                           class="btn btn-danger">Deletar</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
             <!-- Button trigger modal -->
             <div class="d-flex justify-content-between">
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">

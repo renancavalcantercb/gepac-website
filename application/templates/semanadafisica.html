@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -51,7 +51,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ session['email'] }}
+                        {{ session['name'] }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
                         {% if session['admin'] %}
@@ -92,25 +92,142 @@
                 <p class="display-7 fw-bold">Inscrição para a II Semana da Física</p>
             </div>
             <div class="row px-md-4 px-1 m-0">
-                <div class="col-12"><input type="email" class="form-control mb-4" name="email" id="pass"
-                                           placeholder="Email" required></div>
-                <div class="col-12"><input type="password" class="form-control mb-4" name="password" id="pass"
-                                           placeholder="password" required></div>
-                <div class="col-12"><input type="password" class="form-control mb-4" name="confirm_password" id="pass"
-                                           placeholder="confirm password" required></div>
-                <div class="col-12" style="display: flex; justify-content: center; padding-top: 10px;">
-                    <input type="submit" value="Cadastrar" id="buttonsubmit"
-                           class="btn btn-primary py-3"
-                           style="width: 50%;background-color:#262626; border-color: white;">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nome Completo</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirmar Senha</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password"
+                               required>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">CPF</label>
+                        <input type="text" class="form-control" id="cpf" name="cpf"
+                               oninput="applyCpfMask(this)" required>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Data de nascimento</label>
+                        <input type="date" class="form-control" id="birthdate" name="birthdate"
+                               required>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Telefone</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" onkeydown="telMasc(this, mTEL);"
+                               maxlength="14" required>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="course" class="form-label">Selecionar Minicurso</label>
+                        <select class="form-control mb-4" name="course" id="pass" required>
+                            <option value="1">Selenografia - Prof. Heliomarzio</option>
+                            <option value="2">Física Estatística - Prof. Mairton Cavalcante</option>
+                            <option value="3">Python para física - Prof. Renan Cavalcante</option>
+                        </select>
+                    </div>
                 </div>
             </div>
+            <div class="col-12" style="display: flex; justify-content: center; padding-top: 10px;">
+                <input type="submit" value="Cadastrar" id="buttonsubmit"
+                       class="btn btn-primary py-3"
+                       style="width: 50%;background-color:#262626; border-color: white;">
+            </div>
+        </form>
     </div>
-    </form>
-</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    function applyCpfMask(input) {
+        let value = input.value.replace(/\D/g, '');
+
+        if (value.length > 11) {
+            value = value.slice(1);
+        }
+
+        input.value = value
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1-$2');
+
+        if (value.length === 11) {
+            let sum = 0;
+            let weight = [10, 9, 8, 7, 6, 5, 4, 3, 2];
+            let cpf = value.split('');
+            for (let i = 0; i < 9; i++) {
+                sum += cpf[i] * weight[i];
+            }
+            let rest = sum % 11;
+            if (rest < 2) {
+                rest = 0;
+            } else {
+                rest = 11 - rest;
+            }
+            if (rest !== Number(cpf[9])) {
+                console.log("Invalid CPF");
+            } else {
+                sum = 0;
+                weight = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2];
+                for (let i = 0; i < 10; i++) {
+                    sum += cpf[i] * weight[i];
+                }
+                rest = sum % 11;
+                if (rest < 2) {
+                    rest = 0;
+                } else {
+                    rest = 11 - rest;
+                }
+                if (rest !== Number(cpf[10])) {
+                    console.log("Invalid CPF");
+                } else {
+                    return true;
+                }
+            }
+        }
+    }
+
+
+    function telMasc(objeto, mascara) {
+        obj = objeto
+        masc = mascara
+        setTimeout("telMascEx()", 1)
+    }
+
+    function telMascEx() {
+        obj.value = masc(obj.value)
+    }
+
+    function mTEL(tel) {
+        tel = tel.replace(/\D/g, "")
+        tel = tel.replace(/(\d{2})(\d)/, "($1)$2")
+        tel = tel.replace(/(\d{5})(\d)/, "$1-$2")
+        return tel
+    }
+
+</script>
 <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-dark text-white-50">
     <div class="container text-center">
         <small>Copyright &copy; GEPAC 2017-2023</small>
